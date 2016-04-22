@@ -48,6 +48,12 @@ namespace Hangfire.Common
         {
             if (type == null) throw new ArgumentNullException("type");
 
+            //JsonConvert botches datetimes
+            if(type == typeof(DateTime))
+            {
+                return DateTime.Parse(value);
+            }
+
             return value != null
                 ? JsonConvert.DeserializeObject(value, type, _serializerSettings)
                 : null;
